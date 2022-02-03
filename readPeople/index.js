@@ -14,19 +14,26 @@ exports.handler = async (event) => {
     //     phoneNum: String,
     // })
 
-    let People = dynamoose.model('people', peopleSchema);
+    try{
+
+      let People = dynamoose.model('people', peopleSchema);
+
+      // id query
+      // await People.query('id').eq(id).exec()
+  
+      let peopleRecord = await People.scan().exec();
+  
+  
+      // TODO implement
+      const response = {
+          statusCode: 200,
+          body: JSON.stringify(peopleRecord),
+      };
+      return response;
 
 
-    // id query
-    // await People.query('id').eq(id).exec()
+    }catch(e){
 
-    let peopleRecord = await People.scan().exec();
-
-
-    // TODO implement
-    const response = {
-        statusCode: 200,
-        body: JSON.stringify(peopleRecord),
-    };
-    return response;
+      console.log(e);
+    }
 };
